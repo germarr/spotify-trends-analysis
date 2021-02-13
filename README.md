@@ -99,7 +99,7 @@ album_cover = albums["albums"]["items"][0]["images"][1]["url"]
 print(album_cover)
 'https://i.scdn.co/image/ab67616d00001e0277fdcfda6535601aff081b6a'
 ```
-<img src="https://i.scdn.co/image/ab67616d00001e0277fdcfda6535601aff081b6a" alt="MarineGEO circle logo" style="height: 150px; width:150px;
+<img src="https://i.scdn.co/image/ab67616d00001e0277fdcfda6535601aff081b6a" alt="MarineGEO circle logo" style="height: 80px; width:80px;
   display: block;
   margin-left: auto;
   margin-right: auto;"/>
@@ -204,7 +204,7 @@ Here's how the returned dataframe looks like:
 |  3 | 0Whkv3Bi9hP9ev2cFPlZR3 | Antisocial (with Travis Scott) [MK Remix]| Ed Sheeran| 6eUKZXaKkcviH0Ku9w2n3V | Travis Scott | 0Y5tJX1MQlPlqiwlOH1tJY | MK | 1yqxFtPHKcGcv6SXZNdyT9 |
 | 4 | 1GHkv48TNqI8MKWJ1FwKFC | Remember The Name (feat. Eminem & 50 Cent)| Ed Sheeran | 6eUKZXaKkcviH0Ku9w2n3V | Eminem | 7dGJo4pcD2V6oG8kP0tJRR | 50 Cent| 3q7HBObVc0L8jNeTe5Gofh |
 
-><ins>**Notes: **</ins>
+><ins>**Notes:**</ins>
 >* Click [**here**](https://developer.spotify.com/documentation/web-api/reference/#category-albums) to learn more about the information you can get from the "Albums" API call.
 
 
@@ -249,8 +249,6 @@ print( list_of_songs_tolist[0:10] )
 
 ><ins>**Notes:**</ins>
 >* The list of songs ids that is returned after calling the `songs_information()` function is used by the `artists_from_songs()` function that I'm going to discuss below.
-
-><ins>**Notes: **</ins>
 >* Click [**here**](https://developer.spotify.com/documentation/web-api/reference/#category-albums) to learn more about the information you can get from the "Albums" API call.
 
 <br>
@@ -277,9 +275,9 @@ print(artists_in_albums_)
 Here's an example of the dataframe:
 | | song_id | song_popularity | song_image | name_artist_1   | id_artist_1 | name_artist_2 | id_artist_2 | name_artist_3| id_artist_3 |   name_artist_4 | id_artist_4 |name_artist_5 | id_artist_5 |
 |---:|:---|---:|:---|:----------------|:-----------------------|:---|:---|:---|:---|---:|---:|---:|---:|
-|  0 | 0A2J5TumCpT4aJVvQHNEQW | 46 | https://i.scdn.co/image/ab67616d00001e02d08209944468440145f01524 | Ed Sheeran  6eUKZXaKkcviH0Ku9w2n3V |nan | nan | nan | nan                    | nan | nan | nan |nan |
-|  1 | 0AtP8EkGPn6SwxKDaUuXec | 67 | https://i.scdn.co/image/ab67616d00001e0273304ce0653c7758dd94b259 | Ed Sheeran      | 6eUKZXaKkcviH0Ku9w2n3V | Eminem | 7dGJo4pcD2V6oG8kP0tJRR | 50 Cent         | 3q7HBObVc0L8jNeTe5Gofh |nan | nan | nan |nan |
-|  2 | 0CNrpbpJ9HsFffF9hqWIIe | 43 | https://i.scdn.co/image/ab67616d00001e02bc17a9c21d5a81d341945ed2 | Ed Sheeran  6eUKZXaKkcviH0Ku9w2n3V | nan | nan| nan | nan | nan | nan |nan |           nan |
+|  0 | 0A2J5TumCpT4aJVvQHNEQW | 46 | https://i.scdn.co/image/| Ed Sheeran  6eUKZXaKkcviH0Ku9w2n3V |nan | nan | nan | nan                    | nan | nan | nan |nan |
+|  1 | 0AtP8EkGPn6SwxKDaUuXec | 67 | https://i.scdn.co/image/ | Ed Sheeran      | 6eUKZXaKkcviH0Ku9w2n3V | Eminem | 7dGJo4pcD2V6oG8kP0tJRR | 50 Cent         | 3q7HBObVc0L8jNeTe5Gofh |nan | nan | nan |nan |
+|  2 | 0CNrpbpJ9HsFffF9hqWIIe | 43 | https://i.scdn.co/image/ | Ed Sheeran  6eUKZXaKkcviH0Ku9w2n3V | nan | nan| nan | nan | nan | nan |nan |           nan |
 
 The function also returns a list with all the artist’s id's. In my example I stored it in the variable called `artists_id_`. Here's an example of how that variable would look like if we printed it:
 
@@ -352,6 +350,7 @@ And here's an example of the dataframe that is returned:
 ><ins>**Notes:**</ins>
 >* Click [**here**](https://developer.spotify.com/documentation/web-api/reference/#category-tracks) to learn more about the information you can get from the "Tracks" API call.
 
+<br>
 
 ### **3.10** `playlist_data()`
 ---
