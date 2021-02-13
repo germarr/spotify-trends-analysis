@@ -168,7 +168,8 @@ Here's a preview of the returned dataframe:
 | 0 | No.6 Collaborations Project | 3oIFxDIo2fwuk4lwCmFZCx | https://open.spotify.com/album/3oIFxDIo2fwuk4lwCmFZCx | []| https://i.scdn.co/image/ab67616d00001e0273304ce0653c7758dd94b259 | 85 | 2019-07-12 |
 | 1 | No.6 Collaborations Project | 5oUZ9TEZR3wOdvqzowuNwl | https://open.spotify.com/album/5oUZ9TEZR3wOdvqzowuNwl | []| https://i.scdn.co/image/ab67616d00001e027ed2a6d678a53a5959b2894f | 55 | 2019-07-12 |
 | 2 | ÷ (Deluxe)| 3T4tUhGYeRNVUGevb0wThu | https://open.spotify.com/album/3T4tUhGYeRNVUGevb0wThu |[]| https://i.scdn.co/image/ab67616d00001e02ba5db46f4b838ef6027e6f96 | 92 | 2017-03-03 |
-<br>
+
+
 ><ins>**Notes:**</ins>
 >* In addition of returning a dataframe, this function also returns a json file. This json is used by the `get_multiple_artists_from_albums()` and the `songs_information()` functions that I'm going to explain below.
 >* Click [**here**](https://developer.spotify.com/documentation/web-api/reference/#category-albums) to learn more about the information you can get from the "Albums" API call.
