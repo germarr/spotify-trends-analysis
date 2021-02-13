@@ -1,7 +1,7 @@
 # **Analyzing Data on Spotify** 
 This README file contains the Index of the first part of a project I created to do research using Spotify. It covers how to get access to the Spotify API and the description of several helper functions I coded to interact with it.
 
-If you want to interact with the Spotify API as fast as possible and create quick datasets with almost 0 code I highly recommend checking the [`helper_func.py`](https://github.com/germarr/spotify_trends_analysis/helper_func.py). and read the instructions of how to use it starting [**here**](#3.-Helper-Functions). 
+If you want to interact with the Spotify API as fast as possible and, create quick datasets with almost 0 code, I highly recommend checking the [`helper_func.py`](https://github.com/germarr/spotify_trends_analysis/helper_func.py) notebook and read the instructions of how to use it by clicking [**here**](#3.-Helper-Functions). 
 
 If you want to check the full project check my Notebook `spotify_analysis.ipynb`
 
