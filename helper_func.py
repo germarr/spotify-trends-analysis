@@ -7,8 +7,9 @@ import pandas as pd
 from IPython.display import Image
 from IPython.core.display import HTML 
 
-def main(client_id, client_secret, artist, lookup_id=None, playlist_id=None, fields=""):
+def main(client_id, client_secret, artist, lookup_id=None, playlist_id=None, fields="", query=None, search_type='artist'):
     access_token = auth(client_id, client_secret)
+    search = search_spotify(at=access_token , query=query, search_type=search_type)
     artist_id = get_artist_id(access_token, artist=artist)
     albums_ids = get_list_of_albums(lookup_id=lookup_id, artist=artist, at=access_token)
     album_info_list, albums_json = album_information(list_of_albums=albums_ids, at=access_token)
@@ -21,8 +22,8 @@ def main(client_id, client_secret, artist, lookup_id=None, playlist_id=None, fie
 
 def auth(client_id,client_secret):
     base_url = "https://accounts.spotify.com/api/token"
-    client_id = client_id #input("client_id: ")
-    client_secret = client_secret #input("client_secret: ")
+    client_id = input("client_id: ")
+    client_secret = input("client_secret: ")
 
     credentials = f"{client_id}:{client_secret}"
     b64_credentials = base64.b64encode(credentials.encode())
@@ -32,6 +33,17 @@ def auth(client_id,client_secret):
 
     access_token = requests.post(base_url, data=data_for_token, headers=headers_for_token).json()
     return access_token
+
+def search_spotify(at, query=None, search_type='artist'):
+    """
+    Search_Type Options: album , artist, playlist, track, show and episode
+    """
+    endpoint = "https://api.spotify.com/v1/search"
+    headers = { "Authorization": f"Bearer {at['access_token']}" }
+    data = urlencode({"q": query, "type": search_type.lower()})
+    lookup_url = f"{endpoint}?{data}"
+    search = requests.get(lookup_url, headers=headers).json()      
+    return search
 
 def get_artist_id(access_token, artist):
     endpoint = "https://api.spotify.com/v1/search"
@@ -310,4 +322,4 @@ def playlist_data(at, playlist_id, market="US", fields=""):
 
 
 if __name__ == "__main__":
-    main(client_id="6d9cda272a144d6988f08949e9f4cad9",client_secret="28eb8fce5c3448acae7406415e84d1d9", artist="Ed Sheeran")
+    main(client_id="",client_secret="", artist="Ed Sheeran")
