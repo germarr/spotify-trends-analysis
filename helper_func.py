@@ -20,7 +20,7 @@ def main(client_id, client_secret, artist, lookup_id=None, playlist_id=None, fie
     song_features, songs_features_json = song_features(list_of_songs_ids = songs_id_ , at=access_token)
     play_list_json_V2, empty_list_one_V2= playlist_data(at=access_token, playlist_id=playlist_id, fields=fields)
 
-def auth(client_id,client_secret):
+def auth():
     base_url = "https://accounts.spotify.com/api/token"
     client_id = input("client_id: ")
     client_secret = input("client_secret: ")
@@ -252,14 +252,14 @@ def song_features(list_of_songs_ids,at):
     
     while counter > 0:
         var1 = counter-100
-        var2= counter
-        
+        var2 = counter
         headers = { "Authorization": f"Bearer {at['access_token']}" }
     
         if var1 < 0:
             var1 = 0
         
         joined_list = ",".join(list_of_songs_ids[var1:var2])
+        print(joined_list)
         endpoint = f"https://api.spotify.com/v1/audio-features?ids={joined_list}"
         songs_features_json = requests.get(endpoint, headers=headers).json()
         count_features = len(songs_features_json["audio_features"])
@@ -267,20 +267,31 @@ def song_features(list_of_songs_ids,at):
         for i in range(count_features):
             sf = songs_features_json["audio_features"][i]
             
-            empty_list_one.append({
-                'song_id': sf["id"],'danceability': sf["danceability"],
-                 'energy': sf["energy"],'key': sf["key"],
-                 'loudness': sf["loudness"],'mode': sf["mode"],
-                 'speechiness': sf["speechiness"],'acousticness': sf["acousticness"],
-                 'instrumentalness': sf["instrumentalness"],'liveness': sf["liveness"],
-                 'valence': sf["valence"],'tempo': sf["tempo"],
-            })
+            if sf != None:
+                empty_list_one.append({
+                    'song_id': sf["id"],'danceability': sf["danceability"],
+                     'energy': sf["energy"],'key': sf["key"],
+                     'loudness': sf["loudness"],'mode': sf["mode"],
+                     'speechiness': sf["speechiness"],'acousticness': sf["acousticness"],
+                     'instrumentalness': sf["instrumentalness"],'liveness': sf["liveness"],
+                     'valence': sf["valence"],'tempo': sf["tempo"],
+                })
+            else:
+                empty_list_one.append({
+                    'song_id': 0,'danceability': 0,
+                     'energy': 0,'key': 0,
+                     'loudness': 0,'mode': 0,
+                     'speechiness': 0,'acousticness': 0,
+                     'instrumentalness': 0,'liveness': 0,
+                     'valence': 0,'tempo': 0,
+                })
+                
 
         counter -= 100
         
     song_features = pd.DataFrame.from_dict(empty_list_one)
     
-    return song_features, songs_features_json
+    return song_features
 
 def playlist_data(at, playlist_id, market="US", fields=""):
     endpoint = f"https://api.spotify.com/v1/playlists/{playlist_id}"
@@ -302,8 +313,12 @@ def playlist_data(at, playlist_id, market="US", fields=""):
             
             empty_list_one.append({
                 "playlist_id":play_list_json_V2["id"],
+                "playlist_name":play_list_json_V2["name"],
+                "playlist_owner":play_list_json_V2["owner"]["display_name"],
+                "owner_url":play_list_json_V2["owner"]["external_urls"]["spotify"],
                 "playlist_url":play_list_json_V2["external_urls"]["spotify"],
                 "playlist_followers": play_list_json_V2["followers"]["total"],
+                "playlist_cover_art": play_list_json_V2["images"][0]["url"],
                 "song_id":songs_data["id"],
                 "song_added_at": play_list_json_V2["tracks"]["items"][i]["added_at"],
                 "song_name":songs_data["name"],
@@ -318,7 +333,78 @@ def playlist_data(at, playlist_id, market="US", fields=""):
     
     return play_list_json_V2, empty_list_one_V2 
 
+def podcast_info(at, show_id, market="MX"):
+    endpoint = f"https://api.spotify.com/v1/shows/{show_id}"
+    headers = { "Authorization": f"Bearer {at['access_token']}" }
+    data = urlencode({"market": market})    
+    lookup_url = f"{endpoint}?{data}"
+    podcast_json = requests.get(lookup_url, headers=headers).json()
 
+    empty_list =[]
+    count_episodes = len(podcast_json["episodes"]["items"])
+
+    empty_list.append({
+        "name" : podcast_json["name"],
+        "publisher":podcast_json["publisher"],
+        "total_episodes":podcast_json["total_episodes"],
+        "show_id":show_id,
+        "show_cover": podcast_json["episodes"]["items"][0]["images"][1]["url"]
+    })
+    
+    podcast_basic_info = pd.DataFrame.from_dict(empty_list)
+    
+    return podcast_basic_info, podcast_json
+
+def browse_new_playlists(at,limit,offset, country="MX", asset_type="categories"):
+    """
+    featured-playlists | new-releases | categories | categories/{category_id} | categories/{category_id}/playlists
+    """
+    base_url =f"https://api.spotify.com/v1/browse/{asset_type}"
+    headers = { "Authorization": f"Bearer {at['access_token']}" }
+    data=urlencode({"country":country, "limit":limit, "offset":offset })
+    lookup_url = f"{base_url}?{data}"
+    featured_playlist_json = requests.get(lookup_url, headers=headers).json()
+    return featured_playlist_json
+
+def top_playlists(at, country):
+    empty_list=[]  
+    
+    for countries in range(len(country)):
+        categories_toplists = browse_new_playlists(at, limit=50, offset=0, asset_type=f"featured-playlists", country=country[countries])
+        
+        len_playlists= range(len(categories_toplists["playlists"]["items"]))
+        
+        for playlist_id in len_playlists:
+            first_key = categories_toplists["playlists"]["items"][playlist_id]
+            empty_list.append({
+                "name_of_playlist":first_key["name"],
+                "playlist_id":first_key["id"],
+                "owner":first_key["owner"]["display_name"],
+                "playlist_cover":first_key["images"][0]["url"],
+                "country": country[countries]
+            })
+            
+    top_playlists = pd.DataFrame.from_dict(empty_list)
+    return top_playlists
+
+def songs_from_the_playlists(list_of_countries):
+    # Getting the playlists id's from the list of countries
+    dataframe_of_countries = top_playlists(list_of_countries)
+    playlists_ids= dataframe_of_countries.playlist_id.tolist()
+    count_playlists_ids= range(len(playlists_ids))
+    df_countries= dataframe_of_countries[["playlist_id","country"]] 
+    
+    # Getting all the songs from the playlists ids
+    empty_list_one=[]
+    
+    for ids_of_songs in count_playlists_ids:
+        play_list_json_V2, songs_from_playlist= playlist_data(at=access_token, playlist_id=f"{playlists_ids[ids_of_songs]}")
+        empty_list_one.append(songs_from_playlist)
+    
+    df_songs_many_features = pd.concat(empty_list_one).merge(df_countries, on="playlist_id", how="inner").drop_duplicates(subset="song_id")
+    list_df_songs_many_features = df_songs_many_features.song_id.tolist()
+
+    return list_df_songs_many_features, df_songs_many_features
 
 
 if __name__ == "__main__":
