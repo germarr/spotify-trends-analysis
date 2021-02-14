@@ -7,9 +7,10 @@ If you want to check the full project, check my Jupyter Notebook [`spotify_analy
 
 ## **About this project**
 ---
-I wanted to accomplish 2 things with this project. First, I wanted to learn how to use the Spotify API. Learning how to use this API serves as a  gateway into the API Universe. The documentation is amazing, the calls you can make to Spotify per day is more than enough for almost any kind of project and the information you can gather is really interesting.
+I want to accomplish 2 things with this project. First, I want to learn how to use the Spotify API. Learning how to use this API serves as a great gateway into the API Universe. 
+The documentation is amazing, the API calls you can make to Spotify, per day, is more than enough for almost any kind of project and, the information you can get from it is really interesting.
 
-The second thing I wanted to do, was to do some research on the song profiles that different countries consume and predict if new releases could be successful in different regions. To accomplish this, I'm going to create a dataframe with all the songs from some of the most popular playlists per country. Once I have these songs I'm going to use the [**Spotify Audio Features**](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-several-audio-features) on each song and as the last step, I'm applying a Machine Learning model to use these features as my Dependent Variable in a prediction exercise. 
+I also wanto to do some research on the song profiles that different countries consume and predict if new releases could be successful in different regions. To accomplish this, I'm going to create a dataframe with all the songs from some of the most popular playlists per country. Once I have these songs I'm going to use the [**Spotify Audio Features**](https://developer.spotify.com/documentation/web-api/reference/#endpoint-get-several-audio-features) on each song and, as the last step, I'm going to use a Machine Learning model to use these features as my Dependent Variable in a prediction exercise. 
 
 In addition to that, I wanted to do some research on the characteristics of music that each country consumes and how this consumption has changed over the last decade. To do this I want to create a dataset with all the songs from the most important albums of the last 20 years, analyze their characteristics, and see if there's a particular change in the consumption of certain types of artists or genres.
 
@@ -49,13 +50,29 @@ You can find the console by clicking here -->[**Spotify API Console**](https://d
 
 ## **3. Helper Functions**
 ---
-I created several functions inside this python file and, I use them inside my main jupyter notebook to gather all the data I need from Spotify, in the most efficient way possible.
+I created several functions inside the `helper_func.py` python file and, I use them inside my main jupyter notebook to gather all the data I need from Spotify, in the most efficient way possible.
 
 Here's a brief summary of each of those functions : 
 
->* `auth()`: This functions generates the `access_token` by requesting the Client_ID and the Client_Secret. This token is important because it's the key to use all the functionalities of the API.
->* `search_spotify()`: The purpose of this function is to do searches using the Spotify API and get a JSON file with the information that was requested. Using this function, we can search for information about albums, artists, playlists, tracks, shows, and episodes.
->* `get_list_of_albums()`: This query will return a dataframe with all the albums from a single artist. 
+* `auth()`: This functions generates the `access_token` by requesting the Client_ID and the Client_Secret. This token is important because it's the key to use all the functionalities of the API.
+* `search_spotify()`: The purpose of this function is to do searches using the Spotify API and get a JSON file with the information that was requested. Using this function, we can search for information about albums, artists, playlists, tracks, shows, and episodes.
+* `get_list_of_albums()`: This query will return a dataframe with all the albums from a single artist. 
+* `album_information()`: This function returns key information about a list of album ids.
+* `get_multiple_artists_from_albums()`: Some albums have more than 1 artist. This function creates a dataframe that creates new columns for each of the artists that collaborated on the album.
+* `songs_information()`:This function returns a dataframe with all the songs from an artist along with additional data from those songs and the function also returns a list with the unique ids from those songs.
+* `artists_from_songs()`: Some songs have more than 1 performer. This list creates a dataframe that adds new columns for each artist that was involved with the song.
+* `multiple_artists_songs()`: This function can return a dataframe with detailed information about an artist.
+* `song_features()`: This function returns a dataframe with the features that Spotify assigns to each song.
+* `playlist_data()`: This function returns a dataframe with key data about a particular playlist.
+
+To use these functions it's important to have the next libraries installed on your computer:
+```python
+!pip intall requests
+!pip base64
+!pip install datetime
+!pip install pandas
+!pip install URLEncoder
+```
 
 <br>
 
